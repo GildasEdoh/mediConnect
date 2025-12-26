@@ -4,7 +4,6 @@ import { useState } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { MapPin, Phone, Clock, Navigation, Search } from "lucide-react"
 
 const MOCK_PHARMACIES = [
   {
@@ -71,22 +70,34 @@ export default function PharmaciesPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="bg-gradient-to-r from-teal-600 to-blue-600 text-white py-12 px-4">
+      <div className="bg-card border-b border-border py-12 px-4 md:px-8">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-4xl font-bold mb-4">Pharmacies à Proximité</h1>
-          <p className="text-teal-50 text-lg">Trouvez la pharmacie la plus proche de vous</p>
+          <h1 className="text-4xl font-bold text-foreground mb-2">Pharmacies à Proximité</h1>
+          <p className="text-muted-foreground text-lg">Trouvez la pharmacie la plus proche de vous</p>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-4 md:px-8 py-8">
         <div className="grid lg:grid-cols-2 gap-8">
           {/* List Section */}
           <div className="space-y-6">
             <div className="relative">
-              <Search className="absolute left-3 top-3 h-5 w-5 text-muted-foreground" />
+              <svg
+                className="absolute left-3 top-3 h-5 w-5 text-muted-foreground"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                />
+              </svg>
               <Input
                 placeholder="Rechercher une pharmacie..."
-                className="pl-10"
+                className="pl-10 bg-background"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -96,39 +107,75 @@ export default function PharmaciesPage() {
               {filteredPharmacies.map((pharmacy) => (
                 <Card
                   key={pharmacy.id}
-                  className={`p-6 cursor-pointer hover:shadow-lg transition-all ${
-                    selectedPharmacy === pharmacy.id ? "ring-2 ring-teal-600" : ""
-                  }`}
+                  className={`p-6 cursor-pointer hover:shadow-lg transition-all border-border ${selectedPharmacy === pharmacy.id ? "ring-2 ring-primary" : ""
+                    }`}
                   onClick={() => setSelectedPharmacy(pharmacy.id)}
                 >
                   <div className="space-y-3">
                     <div className="flex justify-between items-start">
-                      <h3 className="text-xl font-semibold">{pharmacy.name}</h3>
-                      <span className="text-sm text-teal-600 font-medium">{pharmacy.distance} km</span>
+                      <h3 className="text-lg font-semibold text-foreground">{pharmacy.name}</h3>
+                      <span className="text-sm text-primary font-medium">{pharmacy.distance} km</span>
                     </div>
 
                     <div className="space-y-2 text-sm">
                       <div className="flex items-start gap-2 text-muted-foreground">
-                        <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
+                        <svg
+                          className="h-4 w-4 mt-0.5 flex-shrink-0 text-primary"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                          />
+                        </svg>
                         <span>{pharmacy.address}</span>
                       </div>
                       <div className="flex items-center gap-2 text-muted-foreground">
-                        <Phone className="h-4 w-4 flex-shrink-0" />
+                        <svg
+                          className="h-4 w-4 flex-shrink-0 text-primary"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M3 5a2 2 0 012-2h3.28a1 1 0 00.948-.684l1.498-4.493a1 1 0 011.502-.684l1.498 4.493a1 1 0 00.948.684H17a2 2 0 012 2v2a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"
+                          />
+                        </svg>
                         <span>{pharmacy.phone}</span>
                       </div>
                       <div className="flex items-center gap-2 text-muted-foreground">
-                        <Clock className="h-4 w-4 flex-shrink-0" />
+                        <svg
+                          className="h-4 w-4 flex-shrink-0 text-primary"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
                         <span>{pharmacy.hours}</span>
                       </div>
                     </div>
 
-                    <div className="pt-3 border-t flex gap-2">
-                      <Button className="flex-1 bg-teal-600 hover:bg-teal-700">
-                        <Navigation className="mr-2 h-4 w-4" />
+                    <div className="pt-3 border-t border-border flex gap-2">
+                      <Button className="flex-1 bg-primary hover:bg-primary/90 text-primary-foreground rounded-lg">
                         Itinéraire
                       </Button>
-                      <Button variant="outline" className="flex-1 bg-transparent">
-                        <Phone className="mr-2 h-4 w-4" />
+                      <Button
+                        variant="outline"
+                        className="flex-1 border-primary text-primary hover:bg-primary/5 hover:text-primary bg-transparent rounded-lg"
+                      >
                         Appeler
                       </Button>
                     </div>
@@ -140,31 +187,44 @@ export default function PharmaciesPage() {
 
           {/* Map Section */}
           <div className="lg:sticky lg:top-4 h-[600px]">
-            <Card className="h-full p-4">
-              <div className="h-full bg-muted rounded-lg flex items-center justify-center relative overflow-hidden">
+            <Card className="h-full p-4 border-border">
+              <div className="h-full bg-muted rounded-xl flex items-center justify-center relative overflow-hidden border border-border">
                 {/* Simple map placeholder with markers */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-teal-100">
+                <div className="absolute inset-0 bg-background">
                   {filteredPharmacies.map((pharmacy, idx) => (
                     <div
                       key={pharmacy.id}
-                      className={`absolute w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-all ${
-                        selectedPharmacy === pharmacy.id
-                          ? "bg-teal-600 ring-4 ring-teal-200 scale-125"
-                          : "bg-blue-600 hover:scale-110"
-                      }`}
+                      className={`absolute w-8 h-8 rounded-full flex items-center justify-center cursor-pointer transition-all ${selectedPharmacy === pharmacy.id
+                          ? "bg-primary ring-4 ring-primary/20 scale-125"
+                          : "bg-secondary hover:scale-110"
+                        }`}
                       style={{
                         top: `${20 + idx * 15}%`,
                         left: `${25 + idx * 12}%`,
                       }}
                       onClick={() => setSelectedPharmacy(pharmacy.id)}
                     >
-                      <MapPin className="h-5 w-5 text-white" />
+                      <svg className="h-5 w-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      </svg>
                     </div>
                   ))}
                 </div>
-                <div className="relative z-10 text-center p-8 bg-white/90 rounded-lg">
-                  <MapPin className="h-12 w-12 text-teal-600 mx-auto mb-3" />
-                  <p className="text-muted-foreground">Carte interactive des pharmacies</p>
+                <div className="relative z-10 text-center p-8 bg-card rounded-lg border border-border">
+                  <svg
+                    className="h-12 w-12 text-primary mx-auto mb-3"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                    />
+                  </svg>
+                  <p className="text-muted-foreground font-medium">Carte interactive des pharmacies</p>
                   <p className="text-sm text-muted-foreground mt-2">
                     {filteredPharmacies.length} pharmacie(s) trouvée(s)
                   </p>
